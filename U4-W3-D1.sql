@@ -65,6 +65,10 @@ VALUES
 		('Luca', 'Rossini', 1982, 'Lazio'),
 		('Antonio', 'Gialli', 1982, 'Umbria');
 
+INSERT INTO public.Prodotti (Descrizione, InProduzione, InCommercio, DataAttivazione, DataDisattivazione)
+VALUES 
+  ('Prodotto C', FALSE, FALSE, '2020-07-01', '2022-07-01');
+
 -- Esercizio 1
 SELECT * FROM public.Clienti WHERE nome = 'Mario';
 -- Esercizio 2
@@ -72,3 +76,6 @@ SELECT nome, cognome FROM public.Clienti WHERE AnnoDiNascita = 1982;
 -- Esercizio 3
 SELECT * FROM public.Fatture WHERE iva = 22;
 -- Esercizio 4
+SELECT * FROM public.Prodotti WHERE EXTRACT(YEAR FROM DataAttivazione) = 2020
+				AND (InProduzione = TRUE OR InCommercio = TRUE);
+-- Esercizio 5
