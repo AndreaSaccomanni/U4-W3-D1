@@ -16,7 +16,7 @@ DataDisattivazione DATE NOT NULL
 );
 
 CREATE TABLE Fornitore(
-NumeroFornitore BIGSERIAL NOT NULL PRIMARY KEY,
+NumeroFornitore BIGSERIAL NOT NULL PRIMARY KEY ,
 Denominazione VARCHAR(25) NOT NULL,
 RegioneResidenza VARCHAR(20)  NOT NULL
 );
@@ -74,8 +74,21 @@ SELECT * FROM public.Clienti WHERE nome = 'Mario';
 -- Esercizio 2
 SELECT nome, cognome FROM public.Clienti WHERE AnnoDiNascita = 1982;
 -- Esercizio 3
-SELECT * FROM public.Fatture WHERE iva = 22;
+SELECT count(*) AS numero_fatture_iva22 FROM public.Fatture WHERE iva = 22;
 -- Esercizio 4
 SELECT * FROM public.Prodotti WHERE EXTRACT(YEAR FROM DataAttivazione) = 2020
-				AND (InProduzione = TRUE OR InCommercio = TRUE);
+	AND (InProduzione = TRUE OR InCommercio = TRUE);
 -- Esercizio 5
+SELECT * FROM public.Fatture 
+	INNER JOIN public.Clienti ON Fatture.IdCliente = Clienti.NumeroCliente
+	WHERE Fatture.importo < 1000;
+-- Esercizio 6
+SELECT * FROM public.Fatture 
+	INNER JOIN public.Fornitore ON Fatture.NumeroFornitore = Fornitore.NumeroFornitore;
+-- Esercizio 7
+SELECT count(*) AS NumeroFatture, EXTRACT(YEAR FROM Fatture.DataFattura) AS Anno
+FROM public.Fatture WHERE iva = 22 GROUP BY EXTRACT(YEAR FROM DataFattura); 
+-- Esercizio 8
+SELECT count(*) AS NumeroFatture, sum(Importo) AS SommaImporto, 
+	EXTRACT(YEAR FROM DataFattura) FROM public.Fatture
+	GROUP BY EXTRACT(YEAR FROM DataFattura);
